@@ -8,4 +8,4 @@ node_modules
 yarn.lock
 
 # Ignore generated Prisma client files
-src/generated/*
+src/generated/prisma-client/index.ts
