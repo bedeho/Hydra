@@ -1,0 +1,11 @@
+.env*
+dist
+package-lock.json
+node_modules
+.idea
+.vscode
+*.log
+yarn.lock
+
+# Ignore generated Prisma client files
+src/generated/*
