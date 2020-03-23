@@ -4,3 +4,9 @@ type Post {
   title: String!
   content: String!
 }
+
+type Balance {
+  account: ID! @id
+  created: DateTime!
+  amount: Int!
+}

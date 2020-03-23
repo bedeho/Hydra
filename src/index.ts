@@ -18,21 +18,7 @@ const resolvers = {
     post(parent, { id }, context: Context) {
       return context.prisma.post({ id })
     },
-  },
-  Mutation: {
-    createDraft(parent, { title, content }, context: Context) {
-      return context.prisma.createPost({ title, content })
-    },
-    deletePost(parent, { id }, context: Context) {
-      return context.prisma.deletePost({ id })
-    },
-    publish(parent, { id }, context: Context) {
-      return context.prisma.updatePost({
-        where: { id },
-        data: { published: true },
-      })
-    },
-  },
+  }
 }
 
 const server = new GraphQLServer({
