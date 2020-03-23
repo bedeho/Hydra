@@ -4,11 +4,11 @@
     "start": "ts-node src/index.ts"
   },
   "dependencies": {
+    "global": "^4.4.0",
     "graphql-yoga": "1.18.3",
     "prisma-client-lib": "1.34.10"
   },
   "devDependencies": {
-    "prisma": "1.34.10",
     "ts-node": "7.0.1",
     "typescript": "3.2.2"
   }

@@ -9,3 +9,4 @@ yarn.lock
 
 # Ignore generated Prisma client files
 src/generated/prisma-client/index.ts
+src/generated/prisma-client/prisma-scheme.ts
