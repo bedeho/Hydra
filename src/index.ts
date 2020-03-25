@@ -1,5 +1,5 @@
-import { GraphQLServer } from 'graphql-yoga'
-import { prisma } from './generated/prisma-client'
+import { GraphQLServer, Options } from 'graphql-yoga'
+import { prisma, BalanceWhereInput } from './generated/prisma-client'
 import { Context } from './utils'
 
 // ====
@@ -9,14 +9,8 @@ import { Context } from './utils'
 
 const resolvers = {
   Query: {
-    my_feed(parent, args, context: Context) {
-      return context.prisma.posts({ where: { published: true } })
-    },
-    drafts(parent, args, context: Context) {
-      return context.prisma.posts({ where: { published: false } })
-    },
-    post(parent, { id }, context: Context) {
-      return context.prisma.post({ id })
+    balances(parent, args, context: Context) {
+      return context.prisma.balances()
     },
   }
 }
@@ -26,4 +20,10 @@ const server = new GraphQLServer({
   resolvers,
   context: { prisma },
 })
-server.start(() => console.log('Server is running on http://localhost:4000'))
+
+const server_options = {
+  port: 400
+} as Options;
+
+server.start(server_options,() => console.log(`Server is running on http://localhost:${server_options.port}`))
+

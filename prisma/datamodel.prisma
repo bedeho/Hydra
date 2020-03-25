@@ -1,12 +1,7 @@
-type Post {
-  id: ID! @id
-  published: Boolean! @default(value: false)
-  title: String!
-  content: String!
-}
 
 type Balance {
-  account: ID! @id
+  id: ID! @id
+  account: String! @unique
   created: DateTime!
   amount: Int!
 }
