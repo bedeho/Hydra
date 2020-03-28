@@ -1,7 +1,7 @@
 {
   "name": "hydra",
   "scripts": {
-    "start": "DEBUG=index,producer,consumer ts-node src/index.ts"
+    "start": "DEBUG=consumer ts-node src/index.ts"
   },
   "dependencies": {
     "@joystream/types": "^0.6.0",

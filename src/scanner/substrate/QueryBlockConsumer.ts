@@ -3,8 +3,10 @@
 import QueryEventBlock from './QueryEventBlock'
 import QueryEvent from './QueryEvent'
 
+export type QueryEventProcessorResult = void | Promise<void>
+
 export interface QueryEventProcessingPack {
-    [index: string] : (query_event: QueryEvent) => Promise<void>
+    [index: string] : (query_event: QueryEvent) => QueryEventProcessorResult
 }
 
 var debug = require('debug')('consumer');
@@ -24,8 +26,8 @@ export default class QueryBlockConsumer {
 
             if(!this._processing_pack[query_event.event_name])
                 debug(`Unrecognized: ` + query_event.event_name)
-            else 
-                debug(`Recognized: ` + query_event.event_name)
+            //else 
+            //    debug(`Recognized: ` + query_event.event_name)
         })
 
     }

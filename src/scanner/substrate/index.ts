@@ -1,17 +1,16 @@
-import ISubstrateQueryService from './ISubstrateQueryService';
-//import ConsumerWorker from './ConsumerWorker';
-import { ProducerWorker } from './ProducerWorker';
-//import QueryBlockConsumer from './QueryBlockConsumer';
-import QueryBlockProducer from './QueryBlockProducer';
-import QueryEvent from './QueryEvent';
-import QueryEventBlock from './QueryEventBlock';
+import ISubstrateQueryService from './ISubstrateQueryService'
+import QueryBlockProducer from './QueryBlockProducer'
+import QueryBlockConsumer from './QueryBlockConsumer'
+import {QueryEventProcessingPack} from './QueryBlockConsumer'
+import QueryEvent from './QueryEvent'
+import QueryEventBlock from './QueryEventBlock'
 
 
 export {
     ISubstrateQueryService,
-    //ConsumerWorker,
-    ProducerWorker,
     QueryBlockProducer,
+    QueryBlockConsumer,
+    QueryEventProcessingPack,
     QueryEvent,
     QueryEventBlock
 }

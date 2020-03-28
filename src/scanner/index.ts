@@ -4,13 +4,29 @@ import { ApiPromise, WsProvider, /*RuntimeVersion*/ } from '@polkadot/api';
 import { Hash, Header, BlockNumber } from '@polkadot/types/interfaces';
 import { Callback } from '@polkadot/types/types';
 
-import { QueryBlockProducer, QueryEventBlock, ISubstrateQueryService } from './substrate'
+import { 
+    QueryBlockProducer,
+    QueryBlockConsumer,
+    QueryEventProcessingPack,
+    QueryEvent,
+    QueryEventBlock,
+    ISubstrateQueryService } from './substrate'
 import { registerJoystreamTypes } from '@joystream/types';
-import QueryBlockConsumer from './substrate/QueryBlockConsumer';
 
 const debug = require('debug')('index')
 
 const WS_PROVIDER_ENDPOINT_URI = 'wss://rome-staging-2.joystream.org/staging/rpc/';
+
+const pack:QueryEventProcessingPack = {
+    'system.ExtrinsicSuccess': (query_event: QueryEvent) => {
+
+        console.log(`system.ExtrinsicSuccess: processing...`)
+    },
+    'balances.NewAccount': (query_event: QueryEvent) => {
+
+        console.log(`balances.NewAccount: processing...`)
+    },
+};
 
 async function starter() {
 
@@ -26,7 +42,7 @@ async function starter() {
     const service = makeService(api);
 
     let producer = new QueryBlockProducer(service);
-    let consumer = new QueryBlockConsumer({})
+    let consumer = new QueryBlockConsumer(pack)
 
     producer.on('QueryEventBlock', (query_event_block: QueryEventBlock):void => {
 
