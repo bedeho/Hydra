@@ -137,11 +137,12 @@ export default class QueryBlockProducer extends EventEmitter {
                 // is needed to avoid events from build config code in genesis, and possibly other cases.
                 let extrinsic = (phase.isApplyExtrinsic && extrinsics_array.length) ? extrinsics_array[phase.asApplyExtrinsic.toNumber()] : undefined
 
+                let query_event = new QueryEvent(record, extrinsic);
+
                 // Logging
-                log_query_event(index, record, extrinsic)
+                query_event.log(0, debug)
 
-                return new QueryEvent(record, extrinsic)
-
+                return query_event
             })
 
             let query_block = new QueryEventBlock(this._block_to_be_produced_next, query_events)
@@ -157,12 +158,13 @@ export default class QueryBlockProducer extends EventEmitter {
     }
 }
 
-function log_query_event(index: number, event_record: EventRecord, extrinsic?: Extrinsic) {
+/*
+function log_query_event(index_in_block: number, event_record: EventRecord, extrinsic?: Extrinsic) {
 
     // Extract the phase, event
     const { event, phase } = event_record
 
-    debug(`\t\t${index}: ${event.section}.${event.method}`)
+    debug(`\t\t${index_in_block}: ${event.section}.${event.method}`)
     
     debug(`\t\t\tParameters:`)
     event.data.forEach((data, index) => {
@@ -179,3 +181,4 @@ function log_query_event(index: number, event_record: EventRecord, extrinsic?: E
         })
     }
 }
+*/

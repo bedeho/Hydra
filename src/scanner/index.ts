@@ -11,42 +11,34 @@ import {
     QueryEvent,
     QueryEventBlock,
     ISubstrateQueryService } from './substrate'
-import { registerJoystreamTypes } from '@joystream/types';
+
 
 const debug = require('debug')('index')
 
-const WS_PROVIDER_ENDPOINT_URI = 'wss://rome-staging-2.joystream.org/staging/rpc/';
-
-const pack:QueryEventProcessingPack = {
-    'system.ExtrinsicSuccess': (query_event: QueryEvent) => {
-
-        console.log(`system.ExtrinsicSuccess: processing...`)
-    },
-    'balances.NewAccount': (query_event: QueryEvent) => {
-
-        console.log(`balances.NewAccount: processing...`)
-    },
-};
-
-async function starter() {
+export default async function scannerStarter(pack: QueryEventProcessingPack, type_registrator: void => void) {
 
     // Initialise the provider to connect to the local node
-    const provider = new WsProvider(WS_PROVIDER_ENDPOINT_URI);
+    const provider = new WsProvider(WS_PROVIDER_ENDPOINT_URI)
 
-    // register types before creating the api
-    registerJoystreamTypes();
+    // TODO: Do we really need to do it like this?
+    // Its pretty ugly, but the registrtion appears to be
+    // accessing some sort of global state, and has to be done after
+    // the provider is created.
+
+    // Register types before creating the api
+    type_registrator()
 
     // Create the API and wait until ready
-    const api = await ApiPromise.create({provider});
+    const api = await ApiPromise.create({provider})
 
     const service = makeService(api);
 
-    let producer = new QueryBlockProducer(service);
+    let producer = new QueryBlockProducer(service)
     let consumer = new QueryBlockConsumer(pack)
 
     producer.on('QueryEventBlock', (query_event_block: QueryEventBlock):void => {
 
-        debug(`Yay, block producer at height: #${query_event_block.block_number}`);
+        debug(`Yay, block producer at height: #${query_event_block.block_number}`)
 
         consumer.consume(query_event_block)
     })
@@ -72,6 +64,4 @@ function makeService(api: ApiPromise) : ISubstrateQueryService {
         eventsAt: (hash: Hash | Uint8Array | string) => { return api.query.system.events.at(hash); }
      } as ISubstrateQueryService;
 }
-
-export default starter
 

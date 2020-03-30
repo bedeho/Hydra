@@ -1,4 +1,5 @@
 import { EventRecord, Extrinsic } from '@polkadot/types/interfaces';
+import { Int } from '../../generated/prisma-client';
 
 export default class QueryEvent {
 
@@ -16,6 +17,28 @@ export default class QueryEvent {
         let event = this.event_record.event
 
         return event.section + '.'+ event.method
+    }
+
+    log(indent: Int, logger: (String) => void) : void {
+
+        // Extract the phase, event
+        const { event, phase } = this.event_record
+
+        logger(`\t\t\tParameters:`)
+        event.data.forEach((data, index) => {
+            logger(`\t\t\t\t${event.typeDef[index].type}: ${data.toString()}`)
+        })
+    
+        logger(`\t\t\tExtrinsic: ${this.extrinsic? this.extrinsic.method.sectionName + '.' + this.extrinsic.method.methodName : 'NONE'}`)
+        logger(`\t\t\t\tPhase: ${phase.toString()}`)
+        
+        if(this.extrinsic) {
+            logger(`\t\t\t\tParameters:`)
+            this.extrinsic.args.forEach((arg, index) => {
+                logger(`\t\t\t\t\t${arg.toRawType()}: ${arg.toString()}`)
+            })
+        }
+
     }
 
 }

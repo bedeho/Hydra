@@ -24,8 +24,12 @@ export default class QueryBlockConsumer {
 
         query_event_block.query_events.forEach((query_event, index) => {
 
-            if(!this._processing_pack[query_event.event_name])
+            if(!this._processing_pack[query_event.event_name]) 
+            {
                 debug(`Unrecognized: ` + query_event.event_name)
+                query_event.log(0,debug)
+            }
+                
             //else 
             //    debug(`Recognized: ` + query_event.event_name)
         })
