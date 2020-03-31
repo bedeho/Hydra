@@ -1,6 +1,7 @@
 import { Hash, Header, BlockNumber, EventRecord, SignedBlock } from '@polkadot/types/interfaces';
 import { Callback, Codec } from '@polkadot/types/types';
 import { UnsubscribePromise } from '@polkadot/api/types';
+import { ApiPromise} from '@polkadot/api';
 
 /**
  * @description ...
@@ -16,4 +17,16 @@ export default interface ISubstrateQueryService {
     eventsAt(hash: Hash | Uint8Array | string): Promise<EventRecord[] & Codec>;
     //eventsRange()
     //events()   
+}
+
+export function makeQueryService(api: ApiPromise) : ISubstrateQueryService {
+
+    return  { 
+        getHeader: (hash?: Hash | Uint8Array | string) => { return api.rpc.chain.getHeader(hash)},
+        getFinalizedHead: () => { return api.rpc.chain.getFinalizedHead();}, 
+        subscribeNewHeads: (v: Callback<Header> ) => { return api.rpc.chain.subscribeNewHeads(v); },
+        getBlockHash: (blockNumber?: BlockNumber | Uint8Array | number | string) => { return api.rpc.chain.getBlockHash(blockNumber); },
+        getBlock: (hash?: Hash | Uint8Array | string) => { return api.rpc.chain.getBlock(hash); },
+        eventsAt: (hash: Hash | Uint8Array | string) => { return api.query.system.events.at(hash); }
+     } as ISubstrateQueryService;
 }

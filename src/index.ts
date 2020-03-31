@@ -7,12 +7,13 @@ import scannerStarter from './scanner'
 import { registerJoystreamTypes } from '@joystream/types';
 
 import Resolvers from './joystream/Resolvers'
+import ProcessingPack from './joystream/ProcessingPack'
 
 const WS_PROVIDER_ENDPOINT_URI = 'wss://rome-staging-2.joystream.org/staging/rpc/';
 
 const server = new GraphQLServer({
   typeDefs: './src/schema.graphql',
-  Resolvers,
+  resolvers: Resolvers,
   context: { prisma },
 })
 
@@ -22,4 +23,6 @@ const server_options = {
 
 server.start(server_options,() => console.log(`Server is running on http://localhost:${server_options.port}`))
 
-scannerStarter(, WS_PROVIDER_ENDPOINT_URI, registerJoystreamTypes, );
+
+
+scannerStarter(WS_PROVIDER_ENDPOINT_URI, ProcessingPack, registerJoystreamTypes)

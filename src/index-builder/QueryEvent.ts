@@ -1,5 +1,5 @@
 import { EventRecord, Extrinsic } from '@polkadot/types/interfaces';
-import { Int } from '../../generated/prisma-client';
+import { Int } from '../generated/prisma-client';
 
 export default class QueryEvent {
 
@@ -19,7 +19,7 @@ export default class QueryEvent {
         return event.section + '.'+ event.method
     }
 
-    log(indent: Int, logger: (String) => void) : void {
+    log(indent: Int, logger: (string) => void) : void {
 
         // Extract the phase, event
         const { event, phase } = this.event_record

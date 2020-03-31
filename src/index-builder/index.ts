@@ -12,13 +12,12 @@ import {
     QueryEventBlock,
     ISubstrateQueryService } from './substrate'
 
-
 const debug = require('debug')('index')
 
-export default async function scannerStarter(pack: QueryEventProcessingPack, type_registrator: void => void) {
+export default async function scannerStarter(ws_provider_endpoint_uri: string, pack: QueryEventProcessingPack, type_registrator: () => void) {
 
     // Initialise the provider to connect to the local node
-    const provider = new WsProvider(WS_PROVIDER_ENDPOINT_URI)
+    const provider = new WsProvider(ws_provider_endpoint_uri)
 
     // TODO: Do we really need to do it like this?
     // Its pretty ugly, but the registrtion appears to be
@@ -52,16 +51,3 @@ export default async function scannerStarter(pack: QueryEventProcessingPack, typ
     
     debug('Started worker.')
 }
-
-function makeService(api: ApiPromise) : ISubstrateQueryService {
-
-    return  { 
-        getHeader: (hash?: Hash | Uint8Array | string) => { return api.rpc.chain.getHeader(hash)},
-        getFinalizedHead: () => { return api.rpc.chain.getFinalizedHead();}, 
-        subscribeNewHeads: (v: Callback<Header> ) => { return api.rpc.chain.subscribeNewHeads(v); },
-        getBlockHash: (blockNumber?: BlockNumber | Uint8Array | number | string) => { return api.rpc.chain.getBlockHash(blockNumber); },
-        getBlock: (hash?: Hash | Uint8Array | string) => { return api.rpc.chain.getBlock(hash); },
-        eventsAt: (hash: Hash | Uint8Array | string) => { return api.query.system.events.at(hash); }
-     } as ISubstrateQueryService;
-}
-

@@ -157,28 +157,3 @@ export default class QueryBlockProducer extends EventEmitter {
         this._producing_blocks_blocks = false
     }
 }
-
-/*
-function log_query_event(index_in_block: number, event_record: EventRecord, extrinsic?: Extrinsic) {
-
-    // Extract the phase, event
-    const { event, phase } = event_record
-
-    debug(`\t\t${index_in_block}: ${event.section}.${event.method}`)
-    
-    debug(`\t\t\tParameters:`)
-    event.data.forEach((data, index) => {
-        debug(`\t\t\t\t${event.typeDef[index].type}: ${data.toString()}`)
-    })
-
-    debug(`\t\t\tExtrinsic: ${extrinsic? extrinsic.method.sectionName + '.' + extrinsic.method.methodName : 'NONE'}`)
-    debug(`\t\t\t\tPhase: ${phase.toString()}`)
-    
-    if(extrinsic) {
-        debug(`\t\t\t\tParameters:`)
-        extrinsic.args.forEach((arg, index) => {
-            debug(`\t\t\t\t\t${arg.toRawType()}: ${arg.toString()}`)
-        })
-    }
-}
-*/

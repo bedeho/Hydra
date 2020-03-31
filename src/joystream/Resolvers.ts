@@ -3,7 +3,7 @@
 // './generated/prisma-client'
 // ====
 
-import { Context } from './utils'
+import { Context } from '../utils'
 
 const Resolvers = {
     Query: {

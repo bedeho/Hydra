@@ -1,4 +1,4 @@
-import ISubstrateQueryService from './ISubstrateQueryService'
+import ISubstrateQueryService, {makeQueryService} from './ISubstrateQueryService'
 import QueryBlockProducer from './QueryBlockProducer'
 import QueryBlockConsumer from './QueryBlockConsumer'
 import {QueryEventProcessingPack} from './QueryBlockConsumer'
@@ -8,6 +8,7 @@ import QueryEventBlock from './QueryEventBlock'
 
 export {
     ISubstrateQueryService,
+    makeQueryService,
     QueryBlockProducer,
     QueryBlockConsumer,
     QueryEventProcessingPack,
