@@ -1,28 +1,26 @@
-import { GraphQLServer, Options } from 'graphql-yoga'
-import { prisma, BalanceWhereInput } from './generated/prisma-client'
+// @ts-check
 
+import { Options } from 'graphql-yoga'
+import { registerJoystreamTypes } from '@joystream/types'
+import { ProcessingPack, Resolvers } from './joystream'
+import {QueryNode} from './query-node'
 
-import scannerStarter from './scanner'
-
-import { registerJoystreamTypes } from '@joystream/types';
-
-import Resolvers from './joystream/Resolvers'
-import ProcessingPack from './joystream/ProcessingPack'
-
+// Constants
 const WS_PROVIDER_ENDPOINT_URI = 'wss://rome-staging-2.joystream.org/staging/rpc/';
-
-const server = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
-  resolvers: Resolvers,
-  context: { prisma },
-})
-
-const server_options = {
+const GRAPHQL_SERVER_OPTIONS = {
   port: 400
 } as Options;
 
-server.start(server_options,() => console.log(`Server is running on http://localhost:${server_options.port}`))
+// Make a query node
+let queryNode = QueryNode.create()
 
+// Start in anymous async closure
+async () => {
+  await queryNode.start()
+}()
 
-
-scannerStarter(WS_PROVIDER_ENDPOINT_URI, ProcessingPack, registerJoystreamTypes)
+// When application is about to stop, lets
+// shut down query node as well
+process.on('exit', async function(code) {
+  await queryNode.stop()
+});
