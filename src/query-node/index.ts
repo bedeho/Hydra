@@ -1,5 +1,8 @@
-import QueryNode from './QueryNode'
+import QueryNode, {QueryNodeState} from './QueryNode'
+import QueryNodeManager from './QueryNodeManager'
 
 export {
-    QueryNode
+    QueryNode,
+    QueryNodeState,
+    QueryNodeManager
 }

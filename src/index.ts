@@ -1,26 +1,20 @@
 // @ts-check
 
 import { Options } from 'graphql-yoga'
-import { registerJoystreamTypes } from '@joystream/types'
-import { ProcessingPack, Resolvers } from './joystream'
-import {QueryNode} from './query-node'
+import { QueryNodeManager} from './query-node'
+import { Resolvers } from './joystream'
 
 // Constants
-const WS_PROVIDER_ENDPOINT_URI = 'wss://rome-staging-2.joystream.org/staging/rpc/';
+const WS_PROVIDER_ENDPOINT_URI = 'wss://rome-staging-2.joystream.org/staging/rpc/'
 const GRAPHQL_SERVER_OPTIONS = {
   port: 400
-} as Options;
+} as Options
+const SCHEMA_PATH = './src/schema.graphql'
+const RESOLVERS = Resolvers
 
-// Make a query node
-let queryNode = QueryNode.create()
+// Lets go, create a manager that winds down
+// when process exits.
+let query_node_manager = new QueryNodeManager(process);
 
-// Start in anymous async closure
-async () => {
-  await queryNode.start()
-}()
-
-// When application is about to stop, lets
-// shut down query node as well
-process.on('exit', async function(code) {
-  await queryNode.stop()
-});
+// Fire it up
+query_node_manager.start(WS_PROVIDER_ENDPOINT_URI, SCHEMA_PATH, Resolvers, GRAPHQL_SERVER_OPTIONS)

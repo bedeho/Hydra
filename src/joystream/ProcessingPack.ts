@@ -1,11 +1,11 @@
 
 // @ts-check
 
-import {QueryEventProcessingPack} './'
+import {QueryEventProcessingPack, QueryEvent} from '../index-builder'
 
 var debug = require('debug')('consumer');
 
-export default ProcessingPack:QueryEventProcessingPack = {
+export default {
     'system.ExtrinsicSuccess': (query_event: QueryEvent) => {
 
         debug(`system.ExtrinsicSuccess: processing...`)
@@ -16,9 +16,10 @@ export default ProcessingPack:QueryEventProcessingPack = {
 
         debug(`balances.NewAccount: processing...`)
     },
-};
+} as QueryEventProcessingPack;
 
 /*
+    Fragment of example code fo unpacking query event
                             // Show what we are busy with
                     //console.log(`\t\t${event.section}:${event.method}:: (phase=${phase.toString()})`);
                     //console.log(`\t\t${event.meta.documentation.toString()}`);

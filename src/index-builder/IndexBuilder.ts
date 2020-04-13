@@ -6,7 +6,6 @@ import { Callback } from '@polkadot/types/types';
 
 import { 
     QueryBlockProducer,
-    QueryBlockConsumer,
     QueryEventProcessingPack,
     QueryEvent,
     QueryEventBlock,
@@ -27,20 +26,17 @@ export default class IndexBuilder {
 
     static create(service) : IndexBuilder {
 
-        let producer = new QueryBlockProducer
+        const producer = new QueryBlockProducer(service)
 
         return new IndexBuilder(producer)
     }
 
-    async start() {
+    async start(service: ISubstrateQueryService) {
 
-        let producer = new QueryBlockProducer(service)
+        // check state
     
         // STORE THIS SOMEWHERE
-        producer.on('QueryEventBlock', (query_event_block: QueryEventBlock):void => {
-    
-            
-    
+        this._producer.on('QueryEventBlock', (query_event_block: QueryEventBlock):void => {
             this._onQueryEventBlock(query_event_block)
         })
     
@@ -49,7 +45,7 @@ export default class IndexBuilder {
         // open database??
     
         // Setup worker
-        await producer.start();
+        await this._producer.start();
         
         debug('Started worker.')
     }
