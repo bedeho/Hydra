@@ -20,8 +20,9 @@ export default class IndexBuilder {
 
     private _processing_pack: QueryEventProcessingPack
 
-    private constructor() {
+    private constructor(producer: QueryBlockProducer) {
 
+        this._producer = producer
     }
 
     static create(service) : IndexBuilder {
